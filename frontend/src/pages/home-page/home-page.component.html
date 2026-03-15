@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-gray-50 p-8">
+  <header class="max-w-5xl mx-auto mb-10">
+    <h1 class="text-3xl font-extrabold text-gray-900">
+      Configurações do Sistema
+    </h1>
+    <p class="text-gray-600">
+      Selecione qual módulo deseja gerenciar no momento.
+    </p>
+  </header>
+  <main class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+    <app-create-card
+      [direction]="'perfil'"
+      [typeConfiguraion]="'Gestão de Perfis'"
+      [description]="
+        'Defina os níveis de acesso e descrições das funções do sistema.'
+      "
+      [color]="'blue'"
+    ></app-create-card>
+    <app-create-card
+      [direction]="'user'"
+      [typeConfiguraion]="'Gestão de Usuários'"
+      [description]="
+        'Gerencie os usuários e vincule-os aos perfis cadastrados.'
+      "
+      [color]="'green'"
+    ></app-create-card>
+  </main>
+</div>
