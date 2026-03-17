@@ -1,71 +1,59 @@
-# The Best Crud In The World
+The Best Crud In The World
 
-Pré-requisitos
+## 1. Pré-requisitos
 
-Antes de começar, certifique-se de ter instalado:
+Para a correta execução do projeto, as seguintes dependências devem estar instaladas no ambiente:
 
-Java 17 ou superior
+- **Java**: Versão 17 ou superior.
+- **Maven**: Versão 3.x.
+- **PostgreSQL**: Versão 14 ou superior.
+- **Angular & Node.js**: v8.2.14 e v12.22.12 respectivamente (necessários apenas para execução independente do frontend).
 
-Maven 3.x
+---
 
-PostgreSQL 14+
-
-Angular 8.2.14 & Node.js v12.22.12 (caso deseje rodar o frontend separadamente)
-
-Configuração do Banco de Dados
+## 2. Configuração do Banco de Dados
 
 O sistema exige a criação prévia das tabelas e permissões. Execute o script SQL de acordo com seu sistema operacional:
 
-Linux
+### Linux (Bash)
 
-Bash
-
+```bash
 sudo -u postgres psql -f criar_table.sql
+```
 
-Windows
+## 3. Execução do Backend (Spring Boot)
 
-PowerShell
+O backend gerencia as regras de negócio e serve a API REST. Para compilar e rodar, acesse o diretório `backend` e execute os comandos abaixo:
 
-psql -U postgres -d lazaros -f criar_table.sql
+### Comandos de Build e Execução
 
-Executando o Backend (Spring Boot)
-
-O backend gerencia as regras de negócio e a API REST. Para compilar e rodar, acesse a pasta backend e execute:
-
-Bash
-
+````bash
 mvn clean install
-
 mvn spring-boot:run
+O servidor será iniciado por padrão em: http://localhost:8080
 
-O servidor iniciará por padrão em: http://localhost:8080
+## 4. Execução do Frontend (Angular)
+Os arquivos estáticos do Angular já estão integrados ao backend (localizados em `src/main/resources/static`). Caso deseje realizar builds manuais ou automação de deploy, utilize os scripts na raiz do projeto:
 
-Executando o Frontend (Angular)
-
-Os arquivos estáticos do Angular já estão integrados ao backend (em src/main/resources/static). No entanto, para desenvolvimento ou builds manuais, utilize os scripts automatizados na raiz do projeto:
-
-No Windows
-
-Execute o arquivo de lote para build e deploy:
-
-PowerShell
-
+### Ambiente Windows (PowerShell)
+Execute o arquivo de lote para realizar o build e o deploy:
+```powershell
 ./build_and_run.bat
 
-No Linux
-
+### Ambiente Linux (Bash)
 Dê permissão de execução e rode o shell script:
 
-Bash
-
+```bash
 chmod +x build_and_run.sh
-
 ./build_and_run.sh
+````
 
-Testes
+## 5. Testes Unitários
 
-Para rodar os testes unitários e validar a integridade do sistema:
+O projeto utiliza JUnit 5 e Mockito para validação da integridade do sistema e das regras de negócio. Para executar a suíte de testes, utilize o comando abaixo:
 
-Bash
+### Execução via Maven
 
+```bash
 mvn test
+```
