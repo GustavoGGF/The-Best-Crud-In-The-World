@@ -37,28 +37,34 @@ O backend gerencia as regras de negócio e serve a API REST. Para compilar e rod
 
 ### Comandos de Build e Execução
 
-````bash
+```bash
 mvn clean install
 mvn spring-boot:run
 O servidor será iniciado por padrão em: http://localhost:8080
+```
 
 ---
 
 ## 4. Execução do Frontend (Angular)
+
 Os arquivos estáticos do Angular já estão integrados ao backend (localizados em `src/main/resources/static`). Caso deseje realizar builds manuais ou automação de deploy, utilize os scripts na raiz do projeto:
 
 ### Ambiente Windows (PowerShell)
+
 Execute o arquivo de lote para realizar o build e o deploy:
+
 ```powershell
 ./build_and_run.bat
+```
 
 ### Ambiente Linux (Bash)
+
 Dê permissão de execução e rode o shell script:
 
 ```bash
 chmod +x build_and_run.sh
 ./build_and_run.sh
-````
+```
 
 ---
 
