@@ -25,8 +25,9 @@ sudo -u postgres psql -f criar_table.sql
 
 Certifique-se de que o executável `psql` esteja no seu PATH e execute:
 
-`````powershell
+```powershell
 psql -U postgres -d lazaros -f arquivo.sql
+```
 
 ---
 
@@ -57,7 +58,7 @@ Dê permissão de execução e rode o shell script:
 ```bash
 chmod +x build_and_run.sh
 ./build_and_run.sh
-`````
+````
 
 ---
 
