@@ -4,6 +4,7 @@ import { PerfilPageComponent } from "./perfil-page.component";
 import { RouterModule, Routes } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { GeneratorListModule } from "src/components/generator-list/generator-list.module";
+import { NavbarModule } from "src/components/navbar/navbar.module";
 
 const routes: Routes = [{ path: "", component: PerfilPageComponent }];
 
@@ -14,6 +15,7 @@ const routes: Routes = [{ path: "", component: PerfilPageComponent }];
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     GeneratorListModule,
+    NavbarModule,
   ],
   exports: [PerfilPageComponent],
 })
