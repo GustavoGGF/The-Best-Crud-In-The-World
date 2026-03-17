@@ -1,0 +1,56 @@
+<div class="border rounded-lg overflow-hidden bg-white shadow-sm">
+  <ul class="divide-y divide-gray-200">
+    <ng-container *ngIf="profilesList && profilesList.length > 0">
+      <li
+        *ngFor="let item of profilesList"
+        class="p-4 hover:bg-gray-50 flex justify-between items-center gap-4"
+      >
+        <div class="flex gap-4 items-center">
+          <span class="font-bold text-blue-600">#{{ item.id }}</span>
+          <span class="text-gray-700 font-medium">{{ item.descricao }}</span>
+        </div>
+        <button
+          (click)="handleEdit(item)"
+          class="text-blue-600 hover:text-blue-800 text-sm font-semibold"
+        >
+          Editar
+        </button>
+      </li>
+    </ng-container>
+
+    <ng-container *ngIf="usersList && usersList.length > 0">
+      <li
+        *ngFor="let user of usersList"
+        class="p-4 hover:bg-gray-50 flex justify-between items-center gap-4"
+      >
+        <div class="flex flex-col gap-1">
+          <div class="flex gap-3 items-center">
+            <span class="font-bold text-green-600">#{{ user.id }}</span>
+            <span class="text-gray-900 font-bold">{{ user.nome }}</span>
+          </div>
+          <div class="flex gap-1 flex-wrap">
+            <span
+              *ngFor="let p of user.perfis"
+              class="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] rounded uppercase font-bold"
+            >
+              {{ p }}
+            </span>
+          </div>
+        </div>
+        <button
+          (click)="handleEdit(user)"
+          class="text-blue-600 hover:text-blue-800 text-sm font-semibold"
+        >
+          Editar
+        </button>
+      </li>
+    </ng-container>
+
+    <li
+      *ngIf="profilesList?.length === 0 && usersList?.length === 0"
+      class="p-8 text-center text-gray-500"
+    >
+      Nenhum registro encontrado.
+    </li>
+  </ul>
+</div>
