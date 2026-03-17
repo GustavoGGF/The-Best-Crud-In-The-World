@@ -1,4 +1,12 @@
-package backend.Model;
+package backend.model;
 
-public record UserProfileData() {
+public record UserProfileData(
+        Integer id,
+        String name,
+        String perfis
+) {
+
+    public String getName() {
+        return this.name;
+    }
 }
