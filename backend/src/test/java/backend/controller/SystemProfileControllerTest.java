@@ -43,22 +43,21 @@ class SystemProfileControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Instancia o controller passando os mocks para o construtor exigido
         systemProfileController = new SystemProfileController(
-                systemProfileRepository,
                 systemProfileServices
         );
     }
 
     @Test
     @DisplayName("Deve retornar lista de perfis quando existirem dados no banco")
-    void shouldReturnListWhenProfilesExist() {
+    void deveRetornarListaQuandoExistiremPerfis() {
         // Arrange
         List<SystemProfileData> mockProfiles = List.of(
                 new SystemProfileData(1, "DESENVOLVEDOR"),
                 new SystemProfileData(2, "ADMINISTRADOR")
         );
-        when(systemProfileRepository.getAllProfiles()).thenReturn(mockProfiles);
+
+        when(systemProfileServices.findAll()).thenReturn(mockProfiles);
 
         // Act
         ResponseEntity<List<SystemProfileData>> response = systemProfileController.getAllSystemProfileData();
@@ -68,11 +67,13 @@ class SystemProfileControllerTest {
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(2, response.getBody().size());
         assertEquals("DESENVOLVEDOR", response.getBody().get(0).getDescricao());
+
+        verify(systemProfileServices, times(1)).findAll();
     }
 
     @Test
-    @DisplayName("Deve retornar lista vazia (não nula) quando o repositório retornar vazio")
-    void shouldReturnEmptyListWhenRepositoryIsEmpty() {
+    @DisplayName("Deve retornar 400 Bad Request quando a descrição enviada for inferior ao limite mínimo de caracteres")
+    void deveRetornarListaVaziaQuandoRepositorioEstiverVazio() {
         // Arrange
         when(systemProfileRepository.getAllProfiles()).thenReturn(new ArrayList<>());
 
@@ -86,14 +87,14 @@ class SystemProfileControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar 400 Bad Request quando a descrição tiver menos de 5 caracteres")
-    void shouldReturnBadRequestWhenDescriptionIsTooShort() throws Exception {
+    @DisplayName("Deve retornar 400 Bad Request quando a descrição enviada for inferior ao limite mínimo de caracteres")
+    void deveRetornarBadRequestQuandoDescricaoForMuitoCurta() throws Exception {
         // Arrange
         String descricaoCurta = "abc";
-        // Criamos o objeto que o Controller espera receber
+        // Cria o objeto que o Controller espera receber
         SystemProfileData invalidData = new SystemProfileData(null, descricaoCurta);
 
-        // Configuramos o mock para lançar a exceção quando o SERVICE for chamado
+        // Configura o mock para lançar a exceção quando o SERVICE for chamado
         doThrow(new IllegalArgumentException("Quantidade de caracteres insuficiente"))
                 .when(systemProfileServices).insertNewProfile(descricaoCurta);
 
@@ -107,26 +108,24 @@ class SystemProfileControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar 200 OK ao inserir uma descrição válida com mais de 5 caracteres")
-    void shouldReturnOkWhenDescriptionIsValid() throws Exception {
+    @DisplayName("Deve retornar 201 Created quando a descrição enviada for válida e o perfil for criado com sucesso")
+    void deveRetornarCreatedQuandoDescricaoForValida() throws Exception {
         // Arrange
         String descricaoValida = "Desenvolvedor Backend";
-        // Instanciamos o Record com os dados válidos
         SystemProfileData validData = new SystemProfileData(null, descricaoValida);
 
         // Act & Assert
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/profile/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                        // Transformamos o objeto em JSON: {"id":null, "descricao":"Desenvolvedor Backend"}
                         .content(objectMapper.writeValueAsString(validData)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated()); // MUDANÇA AQUI: de isOk() para isCreated()
 
-        // Verificamos se o service foi chamado com a STRING exata que o Record carregava
         verify(systemProfileServices, times(1)).insertNewProfile(descricaoValida);
     }
 
     @Test
+    @DisplayName("Deve validar se as colunas e tipos de dados do banco de dados estão mapeados corretamente para o objeto de domínio")
     void deveValidarMapeamentoDoBanco() throws Exception {
         mockMvc.perform(get("/get-all-profiles")) // Verifique se não falta o "/" no início
                 .andDo(print()) // Isso ajuda a ver o log que você postou
@@ -134,7 +133,8 @@ class SystemProfileControllerTest {
     }
 
     @Test
-    public void deve_retornar_sucesso_ao_atualizar_perfil_existente() {
+    @DisplayName("Deve retornar 200 OK ao atualizar com sucesso um perfil que já existe no sistema")
+    public void deveRetornarOkAoAtualizarPerfilExistente() {
         Integer idParaEditar = 1;
         // Passando os 2 argumentos: ID e Descricao
         SystemProfileData data = new SystemProfileData(idParaEditar, "DESENVOLVEDOR SENIOR");
@@ -145,7 +145,8 @@ class SystemProfileControllerTest {
     }
 
     @Test
-    public void deve_lancar_excecao_ao_atualizar_id_inexistente() {
+    @DisplayName("Deve lançar IllegalArgumentException ao tentar atualizar os dados de um perfil que não foi encontrado no banco")
+    public void deveLancarExcecaoAoAtualizarIdInexistente() {
         // Arrange
         Integer idInexistente = 99;
         String descricaoTeste = "TESTE";
@@ -153,7 +154,7 @@ class SystemProfileControllerTest {
         // Como é um Record, instanciamos passando os valores no construtor
         SystemProfileData data = new SystemProfileData(idInexistente, descricaoTeste);
 
-        // Configuramos o mock para lançar a exceção com a mensagem exata
+        // Configura o mock para lançar a exceção com a mensagem exata
         String mensagemEsperada = "Aviso: Nenhum perfil encontrado com o ID: " + idInexistente;
 
         doThrow(new IllegalArgumentException(mensagemEsperada))
@@ -169,27 +170,39 @@ class SystemProfileControllerTest {
     }
 
     @Test
-    public void deve_retornar_sucesso_ao_excluir_perfil() {
+    @DisplayName("Deve retornar 204 No Content após a exclusão bem-sucedida de um perfil existente")
+    public void deveRetornarNoContentAoExcluirPerfilComSucesso() {
+        // Arrange
         Integer idParaExcluir = 1;
 
+        // Act
         ResponseEntity<?> response = systemProfileController.deleteSystemProfile(idParaExcluir);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(systemProfileRepository).deleteProfile(idParaExcluir);
+        // Assert
+        // Verifica o status 204 (No Content)
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+
+        verify(systemProfileServices, times(1)).deleteProfile(idParaExcluir);
     }
 
     @Test
-    public void deve_lancar_excecao_ao_tentar_excluir_id_inexistente() {
+    @DisplayName("Deve lançar IllegalArgumentException ao tentar excluir um perfil cujo ID não consta na base de dados")
+    public void deveLancarExcecaoAoTentarExcluirIdInexistente() {
+        // Arrange
         Integer idInexistente = 99;
         String mensagemEsperada = "Não foi possível excluir: Perfil #99 não encontrado.";
-
+        
         doThrow(new IllegalArgumentException(mensagemEsperada))
-                .when(systemProfileRepository).deleteProfile(idInexistente);
+                .when(systemProfileServices).deleteProfile(idInexistente);
 
-        try {
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             systemProfileController.deleteSystemProfile(idInexistente);
-        } catch (IllegalArgumentException e) {
-            assertEquals(mensagemEsperada, e.getMessage());
-        }
+        });
+
+        assertEquals(mensagemEsperada, exception.getMessage());
+
+        // Verificação extra de segurança
+        verify(systemProfileServices, times(1)).deleteProfile(idInexistente);
     }
 }
