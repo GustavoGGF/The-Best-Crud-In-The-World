@@ -21,6 +21,8 @@ O sistema exige a criação prévia das tabelas e permissões. Execute o script 
 sudo -u postgres psql -f criar_table.sql
 ```
 
+---
+
 ## 3. Execução do Backend (Spring Boot)
 
 O backend gerencia as regras de negócio e serve a API REST. Para compilar e rodar, acesse o diretório `backend` e execute os comandos abaixo:
@@ -31,6 +33,8 @@ O backend gerencia as regras de negócio e serve a API REST. Para compilar e rod
 mvn clean install
 mvn spring-boot:run
 O servidor será iniciado por padrão em: http://localhost:8080
+
+---
 
 ## 4. Execução do Frontend (Angular)
 Os arquivos estáticos do Angular já estão integrados ao backend (localizados em `src/main/resources/static`). Caso deseje realizar builds manuais ou automação de deploy, utilize os scripts na raiz do projeto:
@@ -47,6 +51,8 @@ Dê permissão de execução e rode o shell script:
 chmod +x build_and_run.sh
 ./build_and_run.sh
 ````
+
+---
 
 ## 5. Testes Unitários
 
