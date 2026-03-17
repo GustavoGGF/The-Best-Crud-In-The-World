@@ -3,21 +3,22 @@
     >Perfis de Sistema (Mínimo 1)</label
   >
 
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     <div
       *ngFor="let perfil of perfisDisponiveis"
-      class="flex items-center p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer"
+      class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
     >
       <input
         type="checkbox"
         [id]="'perfil-' + perfil.id"
         [value]="perfil.descricao"
         (change)="onCheckboxChange($event, perfil)"
-        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+        [checked]="isProfileSelected(perfil.descricao)"
+        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
       />
       <label
         [for]="'perfil-' + perfil.id"
-        class="ml-3 text-gray-700 font-medium cursor-pointer"
+        class="ml-3 text-sm text-gray-700 font-semibold cursor-pointer select-none uppercase"
       >
         {{ perfil.descricao }}
       </label>
