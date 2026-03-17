@@ -314,7 +314,7 @@ var routes = [
         },
     },
     {
-        path: "perfil",
+        path: "profile",
         loadChildren: function () {
             return Promise.all(/*! import() | pages-perfil-page-perfil-page-module */[__webpack_require__.e("default~pages-perfil-page-perfil-page-module~pages-user-page-user-page-module"), __webpack_require__.e("pages-perfil-page-perfil-page-module")]).then(__webpack_require__.bind(null, /*! ../pages/perfil-page/perfil-page.module */ "./src/pages/perfil-page/perfil-page.module.ts")).then(function (m) { return m.PerfilPageModule; });
         },
