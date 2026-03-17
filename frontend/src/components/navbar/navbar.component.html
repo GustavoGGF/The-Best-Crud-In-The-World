@@ -1,0 +1,52 @@
+<nav class="bg-slate-800 text-white shadow-md">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center gap-8">
+        <h1
+          routerLink="/"
+          class="text-xl font-bold text-blue-400 cursor-pointer"
+          style="text-decoration: none; font-weight: bold"
+        >
+          LAZAROS
+        </h1>
+        <div
+          class="flex items-center gap-4 bg-white p-4"
+          style="
+            display: flex;
+            gap: 20px;
+            background-color: white;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+          "
+        >
+          <a
+            routerLink="/user"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="px-3 py-2 rounded-md text-sm font-bold"
+            style="
+              color: #1e293b !important;
+              text-decoration: none;
+              font-weight: bold;
+            "
+          >
+            Usuários
+          </a>
+
+          <a
+            routerLink="/profile"
+            routerLinkActive="active-link"
+            class="px-3 py-2 rounded-md text-sm font-bold"
+            style="
+              color: #1e293b !important;
+              text-decoration: none;
+              font-weight: bold;
+            "
+          >
+            Perfis de Sistema
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

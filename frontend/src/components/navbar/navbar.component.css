@@ -1,0 +1,11 @@
+a {
+  color: #1e293b !important;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 12px;
+}
+
+.active-link {
+  color: #60a5fa !important; /* text-blue-400 */
+  border-radius: 6px;
+}
