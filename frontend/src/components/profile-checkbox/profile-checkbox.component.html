@@ -1,0 +1,33 @@
+<div class="mb-8">
+  <label class="block text-sm font-semibold text-gray-700 mb-4"
+    >Perfis de Sistema (Mínimo 1)</label
+  >
+
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+    <div
+      *ngFor="let perfil of perfisDisponiveis"
+      class="flex items-center p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer"
+    >
+      <input
+        type="checkbox"
+        [id]="'perfil-' + perfil.id"
+        [value]="perfil.descricao"
+        (change)="onCheckboxChange($event, perfil)"
+        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+      />
+      <label
+        [for]="'perfil-' + perfil.id"
+        class="ml-3 text-gray-700 font-medium cursor-pointer"
+      >
+        {{ perfil.descricao }}
+      </label>
+    </div>
+  </div>
+
+  <div
+    *ngIf="perfisFormArray?.invalid && userForm?.touched"
+    class="text-red-500 text-xs mt-3 italic"
+  >
+    * Selecione ao menos um perfil para este usuário.
+  </div>
+</div>
