@@ -21,6 +21,13 @@ O sistema exige a criação prévia das tabelas e permissões. Execute o script 
 sudo -u postgres psql -f criar_table.sql
 ```
 
+### Windows (PowerShell)
+
+Certifique-se de que o executável `psql` esteja no seu PATH e execute:
+
+`````powershell
+psql -U postgres -d lazaros -f arquivo.sql
+
 ---
 
 ## 3. Execução do Backend (Spring Boot)
@@ -50,7 +57,7 @@ Dê permissão de execução e rode o shell script:
 ```bash
 chmod +x build_and_run.sh
 ./build_and_run.sh
-````
+`````
 
 ---
 
