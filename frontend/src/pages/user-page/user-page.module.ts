@@ -5,6 +5,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ProfileCheckboxModule } from "src/components/profile-checkbox/profile-checkbox.module";
 import { GeneratorListModule } from "src/components/generator-list/generator-list.module";
+import { NavbarModule } from "src/components/navbar/navbar.module";
 
 const routes: Routes = [{ path: "", component: UserPageComponent }];
 
@@ -16,6 +17,7 @@ const routes: Routes = [{ path: "", component: UserPageComponent }];
     ReactiveFormsModule,
     ProfileCheckboxModule,
     GeneratorListModule,
+    NavbarModule,
   ],
 })
 export class UserPageModule {}

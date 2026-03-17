@@ -1,3 +1,4 @@
+<app-navbar-component></app-navbar-component>
 <div
   class="max-w-3xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-xl border border-gray-100"
 >
@@ -20,20 +21,20 @@
       >
       <input
         type="text"
-        formControlName="nome"
+        formControlName="name"
         class="w-full p-4 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition border-gray-300"
-        [ngClass]="{ 'border-red-500': isFieldInvalid('nome') }"
+        [ngClass]="{ 'border-red-500': isFieldInvalid('name') }"
         placeholder="Digite o nome completo do usuário"
       />
 
       <div
-        *ngIf="userForm.get('nome').invalid && userForm.get('nome').touched"
+        *ngIf="userForm.get('name').invalid && userForm.get('name').touched"
         class="text-red-500 text-xs mt-2"
       >
-        <p *ngIf="userForm.get('nome').errors?.required">
+        <p *ngIf="userForm.get('name').errors?.required">
           O nome é obrigatório.
         </p>
-        <p *ngIf="userForm.get('nome').errors?.minlength">
+        <p *ngIf="userForm.get('name').errors?.minlength">
           O nome deve ter no mínimo 10 caracteres.
         </p>
       </div>
@@ -43,6 +44,8 @@
       [perfisDisponiveis]="perfisDisponiveis"
       [perfisFormArray]="perfisFormArray"
       [userForm]="userForm"
+      (onEdit)="currentProfile($event)"
+      [selectedPerfis]="userSelectedPerfis"
     ></app-profile-checkbox>
 
     <div class="flex justify-between pt-6 border-t">
@@ -82,7 +85,9 @@
     <h3 class="text-xl font-bold text-gray-800 mb-6">Usuários Cadastrados</h3>
     <app-generator-list
       [usersList]="users"
-      (onEdit)="editUser($event)"
-    ></app-generator-list>
+      (editUser)="onUserSelectedForEdit($event)"
+    >
+      ></app-generator-list
+    >
   </div>
 </div>
